@@ -15,18 +15,17 @@ class ConfigCheckEnvironmentCommand extends Command
 
     private $rootPath;
 
-    public function __construct(string $rootPath)
+    public function __construct()
     {
         parent::__construct();
-
-        $this->rootPath = $rootPath;
+        $this->rootPath = getcwd();
     }
 
     protected function configure()
     {
         $this
             ->setDescription(
-                'Check variables in current environment against vars defined in dotEnv'
+                'Check variables in application environment against variables defined in dotEnv'
             )
             ->addOption(
                 'dot-env',
@@ -41,13 +40,22 @@ class ConfigCheckEnvironmentCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $envFilename = $input->getOption('dot-env');
-        $envFilepath = $this->rootPath . DIRECTORY_SEPARATOR . $envFilename;
+        if (empty($envFilename)) {
+            throw new \InvalidArgumentException('Unexpected dot-env argument value received');
+        }
+
+        // is provided dotenv filepath is absolute
+        $envFilepath = ($envFilename[0] === '\\')
+            ? $envFilename
+            : $this->rootPath . DIRECTORY_SEPARATOR . $envFilename;
 
         if (!is_readable($envFilepath)) {
             throw new \InvalidArgumentException(
                 'Cannot read provided dotEnv file at: ' . $envFilepath
             );
         }
+
+        $output->writeln('Loading env file from: ' . $envFilepath);
 
         $envVars = (new Dotenv)->parse(file_get_contents($envFilepath), $envFilename);
         foreach ($envVars as $key => $value) {
