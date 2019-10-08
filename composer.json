@@ -19,5 +19,5 @@
       "Checkenv\\": "src/"
     }
   },
-  "bin": ["bin/check-env"],
+  "bin": ["bin/check-env"]
 }
