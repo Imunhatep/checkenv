@@ -45,7 +45,7 @@ class ConfigCheckEnvironmentCommand extends Command
         }
 
         // is provided dotenv filepath is absolute
-        $envFilepath = ($envFilename[0] === '\\')
+        $envFilepath = ($envFilename[0] === DIRECTORY_SEPARATOR)
             ? $envFilename
             : $this->rootPath . DIRECTORY_SEPARATOR . $envFilename;
 

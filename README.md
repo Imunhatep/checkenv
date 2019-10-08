@@ -4,9 +4,18 @@ Checks environemnt contains all variables from dotenv
 Compares application environment variables against `.env` file. It could be useful on `InitContainer` stage to validate cluster settings for PHP application deployment.
 Based on [Symfony/Console](https://github.com/symfony/console) component, 
 
-##### Usage:
+##### Installation:
 ```bash
-./bin/console c:c:e --dot-env .env.dist
+composer requitre imunhatep/checkenv
+```
+
+##### Usage example:
+```bash
+cd ./bin
+ln -s ../vendor/imunhatep/checkenv/bin/check-env 
+cd ..
+
+./bin/check-env c:c:e --dot-env=".env.dist"
 ```
 
 **Note**: by default Symfony4 loads `.env` on every application invoke, check your project `config/bootstrap.php`:
