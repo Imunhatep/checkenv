@@ -55,19 +55,25 @@ class ConfigCheckEnvironmentCommand extends Command
             );
         }
 
-        $output->writeln('Loading env file from: ' . $envFilepath);
-
+        $output->writeln('Loading env file from: ' . $envFilename);
         $envVars = (new Dotenv)->parse(file_get_contents($envFilepath), $envFilename);
+
+        $missingVars = 0;
         foreach ($envVars as $key => $value) {
             if (!$this->isSetEnv($key)) {
-                throw new \RuntimeException(
-                    sprintf(
-                        'Variable "%s" defined in "%s" file is not set for current environment',
-                        $key,
-                        $envFilename
-                    )
-                );
+                $missingVars++;
+                $output->writeln(sprintf('Variable "%s" is not defined', $key));
             }
+        }
+
+        if ($missingVars > 0) {
+            throw new \RuntimeException(
+                sprintf(
+                    'Failed checking environment variables, there are %d undefined variables from "%s" dotEnv file',
+                    $missingVars,
+                    $envFilepath
+                )
+            );
         }
 
         $output->writeln('OK');
