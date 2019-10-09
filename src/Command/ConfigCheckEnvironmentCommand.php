@@ -57,7 +57,8 @@ class ConfigCheckEnvironmentCommand extends Command
 
         $output->writeln('Loading env file from: ' . $envFilename);
         $envVars = (new Dotenv)->parse(file_get_contents($envFilepath), $envFilename);
-
+        ksort($envVars);
+        
         $missingVars = 0;
         foreach ($envVars as $key => $value) {
             if (!$this->isSetEnv($key)) {
