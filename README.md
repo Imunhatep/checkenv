@@ -6,7 +6,7 @@ Based on [Symfony/Console](https://github.com/symfony/console) component,
 
 ##### Installation:
 ```bash
-composer requitre imunhatep/checkenv
+composer require imunhatep/checkenv
 ```
 
 ##### Usage example:
