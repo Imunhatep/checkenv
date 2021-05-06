@@ -1,4 +1,4 @@
-Checks environemnt contains all variables from dotenv
+Checks that provided environment contains all variables defined in dotenv file
 ----
 
 Compares application environment variables against `.env` file. It could be useful on `InitContainer` stage to validate cluster settings for PHP application deployment.
